@@ -1,0 +1,16 @@
+student,total_points,points_earned,points_lost,score_percent,feedback
+instructor_case_2,23,23,0,100.0,"all required tests passed, good job!!"
+student_case_2,23,3,20,13.04,"Fcalc value is incorrect (-2 pts)
+avg1 value is incorrect (-1 pts)
+avg2 value is incorrect (-1 pts)
+data_list1 values are incorrect (-1 pts)
+data_list2 values are incorrect (-1 pts)
+dof_b value is incorrect (-4 pts)
+f_table value is incorrect (-1 pts)
+n1 value is incorrect (-1 pts)
+n2 value is incorrect (-1 pts)
+sd1 value is incorrect (-1 pts)
+sd2 value is incorrect (-1 pts)
+statistically_different value is incorrect (-1 pts)
+t_calc_b value is incorrect (-3 pts)
+t_table value is incorrect (-1 pts)"

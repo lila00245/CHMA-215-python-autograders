@@ -18,10 +18,10 @@ from matplotlib.colors import to_rgba
 
 # ---------------- CONFIG ----------------
 # folder containing all student submissions (.ipynb files)
-SUBMISSIONS_FOLDER = "calibration_curves/submissions"
+SUBMISSIONS_FOLDER = "1. calibration_curves/submissions"
 
 # final output file that stores all grades + feedback
-OUTPUT_CSV = "calibration_curves/calibration_curves_grade_report.csv"
+OUTPUT_CSV = "1. calibration_curves/calibration_curves_grade_report.csv"
 
 # expected value for tests
 TITLE_KEYWORDS = ["calibration", "curve", "concentration", "response"]

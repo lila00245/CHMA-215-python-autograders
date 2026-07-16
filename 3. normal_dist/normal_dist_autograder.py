@@ -12,80 +12,66 @@ import builtins                                                             # pr
 import shutil                                                               # file copying
 
 import statistics                                                           # mean/stdev calculations
-from scipy.stats import t                                                   # t.ppf function for t_inv  
-import math                                                                 # math functions
+from scipy.stats import norm                                                # normal distribution functions    
 
 
 # ---------------- CONFIG ----------------
 # folder containing all student submissions (.ipynb files)
-SUBMISSIONS_FOLDER = "grubbs_test/submissions"
+SUBMISSIONS_FOLDER = "3. normal_dist/submissions"
 
 # folder where dataset used by notebooks is stored
-CURRENT_FOLDER = "grubbs_test"
+CURRENT_FOLDER = "3. normal_dist"
 
 # dataset file that gets injected into student notebooks before execution
-INPUT_CSV = "grubbs.csv"
+INPUT_CSV = "normdist.csv"
 
 # final output file that stores all grades + feedback
-OUTPUT_CSV = "grubbs_test/grubbs_test_grade_report.csv"
+OUTPUT_CSV = "3. normal_dist/normal_dist_grade_report.csv"
 
-# expected value for tests
-EXPECTED_DATA_LIST = [346.05, 360.48, 368.74, 309.86, 444.23, 377.13, 356.76, 321.55, 391.55, 374.58, 375.25, 370.33, 345.59, 371.09, 390.87, 305.41, 362.44, 383.93, 340.39, 359.94]
+# this is the correct dataset students are supposed to load
+# used to verify they loaded and processed data correctly
+EXPECTED_DATA_LIST = [36.7, 38.8, 38.4, 36.9, 36.6, 35.6, 38.0, 38.4, 37.5, 37.3, 37.0, 38.0, 37.2, 36.9, 36.7, 36.0, 37.1, 35.3, 38.7, 35.9, 36.8, 35.6, 37.3, 36.2, 35.9, 35.9, 38.1, 38.1, 36.3, 38.1, 38.2, 38.0, 38.1, 36.3, 37.0, 35.3, 35.6, 36.3, 37.6, 37.0, 37.6, 38.2, 36.8, 37.4, 35.8, 38.4, 38.2, 34.0, 38.2, 37.4, 37.0, 37.4, 38.4, 38.2, 36.9, 37.3, 38.2, 36.8, 38.4, 37.1, 36.3, 36.7, 36.2, 39.4, 36.4, 38.6, 37.9, 38.0, 37.8, 37.4, 36.6, 35.9, 34.1, 37.0, 37.6, 37.8, 35.9, 35.3, 34.8, 36.9, 37.1, 36.9, 36.7, 37.1, 36.5, 37.2, 38.0, 37.3, 37.3, 37.1, 38.4, 38.6, 37.7, 36.3, 36.6, 37.6, 38.2, 36.9, 36.7, 39.1]
+
 
 # points per test
 TEST_POINTS = {
-    "test_data_list": 1,
-    "test_data_from_csv": 1,
-    "test_average": 1,
+    "test_data_list": 2,
+    "test_avg": 1,
     "test_sd": 1,
-    "test_min": 1,
-    "test_max": 1,
-    "test_min_dist": 1,
-    "test_max_dist": 1,
-    "test_potential_outlier": 2,
-    "test_x": 1,
-    "test_x_bar": 1,
-    "test_s": 1,
-    "test_g_calc": 3,
-    "test_sig_val": 1,
-    "test_dof": 1,
-    "test_t_table": 1,
-    "test_numerator": 1,
-    "test_denominator": 2,
-    "test_g_table": 4,
-    "test_updated_list": 1,
-    "test_final_avg": 1,
-    "test_final_sd": 1
+    "test_prob_leq_39": 1,
+    "test_prob_geq_39": 1, 
+    "test_prob_leq_38_5": 1,
+    "test_students_geq_39": 1,
+    "test_prob_leq_36": 1,
+    "test_prob_36_to_38_5": 1,
+    "test_students_36_to_38_5": 1,
+    "test_students_leq_36": 1
 }
 
 # human readable descriptions for students
+# feedback of what they did wrong
 TEST_DESCRIPTIONS = {
-    "test_data_list": "data_list values are incorrect",
-    "test_data_from_csv": "data_from_csv values are incorrect",
-    "test_average": "average value is incorrect",
-    "test_sd": "standard deviation value is incorrect",
-    "test_min": "minimum value is incorrect",
-    "test_max": "maximum value is incorrect",
-    "test_min_dist": "distance between minimum and average is incorrect",
-    "test_max_dist": "distance between maximum and average is incorrect",
-    "test_potential_outlier": "potential outlier value is incorrect",
-    "test_x": "x value is incorrect",
-    "test_x_bar": "x_bar (mean of x) value is incorrect",
-    "test_s": "sample standard deviation (s) value is incorrect",
-    "test_g_calc": "g_calc value is incorrect",
-    "test_sig_val": "significance value is incorrect",
-    "test_dof": "degrees of freedom value is incorrect",
-    "test_t_table": "t_table value is incorrect",
-    "test_numerator": "numerator value is incorrect",
-    "test_denominator": "denominator value is incorrect",
-    "test_g_table": "g_table value is incorrect",
-    "test_updated_list": "updated list value is incorrect",
-    "test_final_avg": "final average value is incorrect",
-    "test_final_sd": "final standard deviation value is incorrect"
+    "test_data_list": "data_list value(s) are incorrect",
+    "test_avg": "avg value is incorrect",
+    "test_sd": "sd value is incorrect",
+    "test_prob_leq_39": "prob_leq_39 value is incorrect",
+    "test_prob_geq_39": "prob_geq_39 value is incorrect", 
+    "test_students_geq_39": "students_geq_39 value is incorrect",
+    "test_prob_leq_38_5": "prob_leq_38_5 value is incorrect",
+    "test_prob_leq_36": "prob_leq_36 value is incorrect",
+    "test_prob_36_to_38_5": "prob_36_to_38_5 value is incorrect",
+    "test_students_36_to_38_5": "students_36_to_38_5 value is incorrect",
+    "test_students_leq_36": "students_leq_36 value is incorrect"
 }
 
-BONUS_POINTS = {}
-BONUS_DESCRIPTIONS = {}
+BONUS_POINTS = {
+    "test_z_score": 0.5
+}
+
+# feedback for what they got correct / bonus points for
+BONUS_DESCRIPTIONS = {
+    "test_z_score": "you found the correct z_score value"
+}
 
 
 # ---------------- TEST CASES ----------------
@@ -100,21 +86,14 @@ class StudentTests(unittest.TestCase):
 
     if a test fails, points are deducted
     """
-
-    # checks that the data list was created correctly.
+    # checks that the data list was loaded correctly.
     def test_data_list(self):
         self.assertIn("data_list", globals())
         self.assertIsInstance(data_list, list)
         self.assertEqual(data_list, EXPECTED_DATA_LIST)
 
-    # checks that the csv data was read correctly.
-    def test_data_from_csv(self):
-        self.assertIn("data_from_csv", globals())
-        self.assertIsInstance(data_from_csv, list)
-        self.assertEqual(data_from_csv, EXPECTED_DATA_LIST)
-
     # checks that the average was calculated correctly.
-    def test_average(self):
+    def test_avg(self):
         self.assertIn("data_list", globals())
         self.assertIn("avg", globals())
         self.assertIsInstance(data_list, list)
@@ -133,207 +112,107 @@ class StudentTests(unittest.TestCase):
         expected = statistics.stdev(data_list)
         self.assertAlmostEqual(sd, expected, places=5)
 
-    # checks that the minimum value was found correctly.
-    def test_min(self):
-        self.assertIn("data_list", globals())
-        self.assertIn("min_val", globals())
-        self.assertIsInstance(data_list, list)
-        self.assertIsInstance(min_val, float)
-
-        expected = builtins.min(data_list)
-        self.assertAlmostEqual(min_val, expected, places=5)
-
-    # checks that the maximum value was found correctly.
-    def test_max(self):
-        self.assertIn("data_list", globals())
-        self.assertIn("max_val", globals())
-        self.assertIsInstance(data_list, list)
-        self.assertIsInstance(max_val, float)
-
-        expected = builtins.max(data_list)
-        self.assertAlmostEqual(max_val, expected, places=5)
-
-    # checks that the distance from the mean to the minimum was calculated correctly.
-    def test_min_dist(self):
+    # checks that the probability of X <= 39 was calculated correctly.
+    def test_prob_leq_39(self):
         self.assertIn("avg", globals())
-        self.assertIn("min_val", globals())
-        self.assertIn("min_dist", globals())
-        self.assertIsInstance(avg, float)
-        self.assertIsInstance(min_val, float)
-        self.assertIsInstance(min_dist, float)
-
-        expected = absolute(avg, min_val)
-        self.assertAlmostEqual(min_dist, expected, places=5)
-
-    # checks that the distance from the mean to the maximum was calculated correctly.
-    def test_max_dist(self):
-        self.assertIn("avg", globals())
-        self.assertIn("max_val", globals())
-        self.assertIn("max_dist", globals())
-        self.assertIsInstance(avg, float)
-        self.assertIsInstance(max_val, float)
-        self.assertIsInstance(max_dist, float)
-
-        expected = absolute(avg, max_val)
-        self.assertAlmostEqual(max_dist, expected, places=5)
-
-    # checks that the correct potential outlier was selected.
-    def test_potential_outlier(self):
-        self.assertIn("min_val", globals())
-        self.assertIn("max_val", globals())
-        self.assertIn("min_dist", globals())
-        self.assertIn("max_dist", globals())
-        self.assertIn("potential_outlier", globals())
-        self.assertIsInstance(potential_outlier, float)
-
-        expected = max_val if max_dist > min_dist else min_val
-        self.assertAlmostEqual(potential_outlier, expected, places=5)
-
-    # checks that x was assigned correctly.
-    def test_x(self):
-        self.assertIn("x", globals())
-        self.assertIn("potential_outlier", globals())
-        self.assertIsInstance(x, float)
-        self.assertIsInstance(potential_outlier, float)
-
-        expected = potential_outlier
-        self.assertAlmostEqual(x, expected, places=5)
-
-    # checks that x_bar was assigned correctly.
-    def test_x_bar(self):
-        self.assertIn("x_bar", globals())
-        self.assertIn("avg", globals())
-        self.assertIsInstance(x_bar, float)
-        self.assertIsInstance(avg, float)
-
-        expected = avg
-        self.assertAlmostEqual(x_bar, expected, places=5)
-
-    # checks that s was assigned correctly.
-    def test_s(self):
-        self.assertIn("s", globals())
         self.assertIn("sd", globals())
-        self.assertIsInstance(s, float)
+        self.assertIn("prob_leq_39", globals())
+        self.assertIsInstance(avg, float)
         self.assertIsInstance(sd, float)
+        self.assertIsInstance(prob_leq_39, float)
 
-        expected = sd
-        self.assertAlmostEqual(s, expected, places=5)
+        expected = norm.cdf(39, avg, sd)
+        self.assertAlmostEqual(prob_leq_39, expected, places=5)
 
-    # checks that G_calc was calculated correctly.
-    def test_g_calc(self):
-        self.assertIn("x", globals())
-        self.assertIn("x_bar", globals())
-        self.assertIn("s", globals())
-        self.assertIn("G_calc", globals())
-        self.assertIsInstance(G_calc, float)
+    # checks that the probability of X >= 39 was calculated correctly.
+    def test_prob_geq_39(self):
+        self.assertIn("avg", globals())
+        self.assertIn("sd", globals())
+        self.assertIn("prob_geq_39", globals())
+        self.assertIsInstance(avg, float)
+        self.assertIsInstance(sd, float)
+        self.assertIsInstance(prob_geq_39, float)
 
-        expected = absolute(x, x_bar) / s
-        self.assertAlmostEqual(G_calc, expected, places=5)
+        expected = 1 - norm.cdf(39, avg, sd)
+        self.assertAlmostEqual(prob_geq_39, expected, places=5)
 
-    # checks that the significance value was calculated correctly.
-    def test_sig_val(self):
-        self.assertIn("data_list", globals())
-        self.assertIn("sig_val", globals())
-        self.assertIsInstance(data_list, list)
-        self.assertIsInstance(sig_val, float)
+    # checks that the number of students with X >= 39 was calculated correctly.
+    def test_students_geq_39(self):
+        self.assertIn("prob_geq_39", globals())
+        self.assertIn("students_geq_39", globals())
+        self.assertIsInstance(prob_geq_39, float)
+        self.assertIsInstance(students_geq_39, int)
 
-        alpha = 0.05
-        expected = alpha / len(data_list)
-        self.assertAlmostEqual(sig_val, expected, places=5)
+        expected = round(prob_geq_39 * 20000)
+        self.assertEqual(students_geq_39, expected)
 
-    # checks that the degrees of freedom were calculated correctly.
-    def test_dof(self):
-        self.assertIn("data_list", globals())
-        self.assertIn("dof", globals())
-        self.assertIsInstance(data_list, list)
-        self.assertIsInstance(dof, int)
+    # checks that the probability of X <= 38.5 was calculated correctly.
+    def test_prob_leq_38_5(self):
+        self.assertIn("avg", globals())
+        self.assertIn("sd", globals())
+        self.assertIn("prob_leq_38_5", globals())
+        self.assertIsInstance(avg, float)
+        self.assertIsInstance(sd, float)
+        self.assertIsInstance(prob_leq_38_5, float)
 
-        expected = len(data_list) - 2
-        self.assertEqual(dof, expected)
+        expected = norm.cdf(38.5, avg, sd)
+        self.assertAlmostEqual(prob_leq_38_5, expected, places=5)
 
-    # checks that the t-table value was calculated correctly.
-    def test_t_table(self):
-        self.assertIn("sig_val", globals())
-        self.assertIn("dof", globals())
-        self.assertIn("t_table", globals())
-        self.assertIsInstance(sig_val, float)
-        self.assertIsInstance(dof, int)
-        self.assertIsInstance(t_table, float)
+    # checks that the probability of X <= 36 was calculated correctly.
+    def test_prob_leq_36(self):
+        self.assertIn("avg", globals())
+        self.assertIn("sd", globals())
+        self.assertIn("prob_leq_36", globals())
+        self.assertIsInstance(avg, float)
+        self.assertIsInstance(sd, float)
+        self.assertIsInstance(prob_leq_36, float)
 
-        expected = float(t.ppf(1 - sig_val, df=dof))
-        self.assertAlmostEqual(t_table, expected, places=5)
+        expected = norm.cdf(36, avg, sd)
+        self.assertAlmostEqual(prob_leq_36, expected, places=5)
 
-    # checks that the numerator was calculated correctly.
-    def test_numerator(self):
-        self.assertIn("data_list", globals())
-        self.assertIn("t_table", globals())
-        self.assertIn("numerator", globals())
-        self.assertIsInstance(data_list, list)
-        self.assertIsInstance(t_table, float)
-        self.assertIsInstance(numerator, float)
+    # checks that the probability of 36 <= X <= 38.5 was calculated correctly.
+    def test_prob_36_to_38_5(self):
+        self.assertIn("prob_leq_36", globals())
+        self.assertIn("prob_leq_38_5", globals())
+        self.assertIn("prob_36_to_38_5", globals())
+        self.assertIsInstance(prob_leq_36, float)
+        self.assertIsInstance(prob_leq_38_5, float)
+        self.assertIsInstance(prob_36_to_38_5, float)
 
-        expected = (len(data_list) - 1) * t_table
-        self.assertAlmostEqual(numerator, expected, places=5)
+        expected = prob_leq_38_5 - prob_leq_36
+        self.assertAlmostEqual(prob_36_to_38_5, expected, places=5)
 
-    # checks that the denominator was calculated correctly.
-    def test_denominator(self):
-        self.assertIn("data_list", globals())
-        self.assertIn("t_table", globals())
-        self.assertIn("denominator", globals())
-        self.assertIsInstance(data_list, list)
-        self.assertIsInstance(t_table, float)
-        self.assertIsInstance(denominator, float)
+    # checks that the number of students with 36 <= X <= 38.5 was calculated correctly.
+    def test_students_36_to_38_5(self):
+        self.assertIn("prob_36_to_38_5", globals())
+        self.assertIn("students_36_to_38_5", globals())
+        self.assertIsInstance(prob_36_to_38_5, float)
+        self.assertIsInstance(students_36_to_38_5, int)
 
-        n = len(data_list)
-        expected = math.sqrt(n * (n - 2 + t_table**2))
-        self.assertAlmostEqual(denominator, expected, places=5)
+        expected = round(prob_36_to_38_5 * 20000)
+        self.assertEqual(students_36_to_38_5, expected)
 
-    # checks that G_table was calculated correctly.
-    def test_g_table(self):
-        self.assertIn("numerator", globals())
-        self.assertIn("denominator", globals())
-        self.assertIn("G_table", globals())
-        self.assertIsInstance(numerator, float)
-        self.assertIsInstance(denominator, float)
-        self.assertIsInstance(G_table, float)
+    # checks that the number of students with X <= 36 was calculated correctly.
+    def test_students_leq_36(self):
+        self.assertIn("prob_leq_36", globals())
+        self.assertIn("students_leq_36", globals())
+        self.assertIsInstance(prob_leq_36, float)
+        self.assertIsInstance(students_leq_36, int)
 
-        expected = numerator / denominator
-        self.assertAlmostEqual(G_table, expected, places=5)
+        expected = round(prob_leq_36 * 20000)
+        self.assertEqual(students_leq_36, expected)
 
-    # checks that the updated list was created correctly.
-    def test_updated_list(self):
-        self.assertIn("updated_list", globals())
-        self.assertIn("data_list", globals())
-        self.assertIn("G_calc", globals())
-        self.assertIn("G_table", globals())
-        self.assertIn("potential_outlier", globals())
-        self.assertIsInstance(updated_list, list)
+    # checks that the z-score was calculated correctly.
+    def test_z_score(self):
+        self.assertIn("avg", globals())
+        self.assertIn("sd", globals())
+        self.assertIn("z_score", globals())
+        self.assertIsInstance(avg, float)
+        self.assertIsInstance(sd, float)
+        self.assertIsInstance(z_score, float)
 
-        expected = data_list.copy()
-        if G_calc >= G_table:
-            expected.remove(potential_outlier)
-
-        self.assertEqual(updated_list, expected)
-
-    # checks that the final average was calculated correctly.
-    def test_final_avg(self):
-        self.assertIn("updated_list", globals())
-        self.assertIn("final_avg", globals())
-        self.assertIsInstance(updated_list, list)
-        self.assertIsInstance(final_avg, float)
-
-        expected = statistics.mean(updated_list)
-        self.assertAlmostEqual(final_avg, expected, places=5)
-
-    # checks that the final sample standard deviation was calculated correctly.
-    def test_final_sd(self):
-        self.assertIn("updated_list", globals())
-        self.assertIn("final_sd", globals())
-        self.assertIsInstance(updated_list, list)
-        self.assertIsInstance(final_sd, float)
-
-        expected = statistics.stdev(updated_list)
-        self.assertAlmostEqual(final_sd, expected, places=5)
+        expected = (39 - avg) / sd
+        self.assertAlmostEqual(z_score, expected, places=5)
 
 
 # ---------------- EXECUTION ----------------
@@ -364,8 +243,8 @@ colab_module = types.ModuleType("google.colab")
 files_module = types.ModuleType("google.colab.files")
 
 def fake_upload():
-    print(f"[Autograder] Mock upload called — using local grubbs.csv")
-    return {"grubbs.csv": b""}
+    print(f"[Autograder] Mock upload called — using local normdist.csv")
+    return {"normdist.csv": b""}
 
 files_module.upload = fake_upload
 colab_module.files = files_module
@@ -387,19 +266,24 @@ sys.modules["google.colab.files"] = files_module
     except Exception as e:
         print(f"[warning] csv copy failed: {e}")
 
+
     # runs notebook in isolated kernel environment
     # if student code crashes, we catch it so autograder doesn't stop
     client = NotebookClient(nb, timeout=60, kernel_name="python3")
+
     try:
         client.execute()
     except Exception as e:
         print(f"[warning] notebook crashed: {e}")
 
+
     # rebuild namespace safely and retrieve all code cell information
     ns = {}
+
     for i, cell in enumerate(nb.cells):
         if cell.cell_type != "code":
             continue
+
         try:
             exec(cell.source, ns)
         except Exception as e:

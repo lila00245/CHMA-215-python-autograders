@@ -18,16 +18,16 @@ import math                                                                 # ma
 
 # ---------------- CONFIG ----------------
 # folder containing all student submissions (.ipynb files)
-SUBMISSIONS_FOLDER = "case1/submissions"
+SUBMISSIONS_FOLDER = "4. case1/submissions"
 
 # folder where dataset used by notebooks is stored
-CURRENT_FOLDER = "case1"
+CURRENT_FOLDER = "4. case1"
 
 # dataset file that gets injected into student notebooks before execution
 INPUT_CSV = "case1.csv"
 
 # final output file that stores all grades + feedback
-OUTPUT_CSV = "case1/case1_grade_report.csv"
+OUTPUT_CSV = "4. case1/case1_grade_report.csv"
 
 # this is the correct dataset students are supposed to load
 # used to verify they loaded and processed data correctly
