@@ -1,0 +1,30 @@
+student,total_points,points_earned,points_lost,score_percent,feedback
+bryce_hapston_student_normal_distribution,12,4,8,33.33,"prob_36_to_38_5 value is incorrect (-1 pts)
+prob_geq_39 value is incorrect (-1 pts)
+prob_leq_36 value is incorrect (-1 pts)
+prob_leq_38_5 value is incorrect (-1 pts)
+prob_leq_39 value is incorrect (-1 pts)
+sd value is incorrect (-1 pts)
+students_36_to_38_5 value is incorrect (-1 pts)
+students_leq_36 value is incorrect (-1 pts)"
+instructor_normal_distribution,12,12.5,0,104.17,"all required tests passed, good job!!
+BONUS:
+you found the correct z_score value (+0.5 pts)"
+sincere_baloni_student_normal_distribution,12,4,8,33.33,"avg value is incorrect (-1 pts)
+data_list value(s) are incorrect (-2 pts)
+prob_geq_39 value is incorrect (-1 pts)
+prob_leq_36 value is incorrect (-1 pts)
+prob_leq_38_5 value is incorrect (-1 pts)
+prob_leq_39 value is incorrect (-1 pts)
+sd value is incorrect (-1 pts)"
+student_normal_distribution,12,0,12,0.0,"avg value is incorrect (-1 pts)
+data_list value(s) are incorrect (-2 pts)
+prob_36_to_38_5 value is incorrect (-1 pts)
+prob_geq_39 value is incorrect (-1 pts)
+prob_leq_36 value is incorrect (-1 pts)
+prob_leq_38_5 value is incorrect (-1 pts)
+prob_leq_39 value is incorrect (-1 pts)
+sd value is incorrect (-1 pts)
+students_36_to_38_5 value is incorrect (-1 pts)
+students_geq_39 value is incorrect (-1 pts)
+students_leq_36 value is incorrect (-1 pts)"

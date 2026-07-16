@@ -1,0 +1,12 @@
+student,total_points,points_earned,points_lost,score_percent,feedback
+instructor_case_1,11,11.5,0,104.55,"all required tests passed, good job!!
+BONUS:
+you used comparison operators to find answer_included (+0.5 pts)"
+student_case_1,11,0,11,0.0,"answer_included value is incorrect (-1 pts)
+right_answer or data_list value(s) are incorrect (-2 pts)
+lower_end value is incorrect (-2 pts)
+n value is incorrect (-1 pts)
+s value is incorrect (-1 pts)
+t_table value is incorrect (-1 pts)
+upper_end value is incorrect (-2 pts)
+x_bar value is incorrect (-1 pts)"

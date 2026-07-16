@@ -1,0 +1,37 @@
+student,total_points,points_earned,points_lost,score_percent,feedback
+alex_hill_calibration_curves,15,12.0,4,80.0,"corrected_response2 value is incorrect (-1 pts)
+corrected_response4 value is incorrect (-1 pts)
+x value is incorrect (-2 pts)
+BONUS:
+you changed the x/y axis limits (+0.25 pts)
+you customized the gridlines (+0.25 pts)
+you changed the plot's linestyle (+0.25 pts)
+you changed the plot's linewidth (+0.25 pts)"
+cassandra_lasko_calibration_curves,15,15.5,0,103.33,"all required tests passed, good job!!
+BONUS:
+you changed the x/y axis limits (+0.25 pts)
+you customized the gridlines (+0.25 pts)"
+final_calibration_curves_student,15,16.0,0,106.67,"all required tests passed, good job!!
+BONUS:
+you changed the x/y axis limits (+0.25 pts)
+you customized the gridlines (+0.25 pts)
+you changed the plot's linestyle (+0.25 pts)
+you changed the plot's linewidth (+0.25 pts)"
+hannah_nuss_ctudent_calibration_curves,15,15,0,100.0,"all required tests passed, good job!!"
+sam_doogle_calibration_curves,15,13,2,86.67,"gridlines have not been turned on (-1 pts)
+color of trendline has not been changed (-1 pts)"
+student_calibration_curves,15,0.25,15,1.67,"corrected_response2 value is incorrect (-1 pts)
+corrected_response4 value is incorrect (-1 pts)
+corrected_responses value(s) are incorrect (-2 pts)
+corrected_unk value is incorrect (-1 pts)
+gridlines have not been turned on (-1 pts)
+plot title missing required keywords (-1 pts)
+x-axis label missing required keywords (-1 pts)
+y-axis label missing required keywords (-1 pts)
+color of data points has not been changed (-1 pts)
+color of trendline has not been changed (-1 pts)
+x value is incorrect (-2 pts)
+x_array values are incorrect (-1 pts)
+y_array values are incorrect (-1 pts)
+BONUS:
+you changed the x/y axis limits (+0.25 pts)"
