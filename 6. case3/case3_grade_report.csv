@@ -1,0 +1,11 @@
+student,total_points,points_earned,points_lost,score_percent,feedback
+instructor_case_3,12,12,0,100.0,"all required tests passed, good job!!"
+student_case_3,12,0,12,0.0,"avg value is incorrect (-1 pts)
+data_list1 values are incorrect (-1 pts)
+data_list2 values are incorrect (-1 pts)
+differences_list values are incorrect (-2 pts)
+n value is incorrect (-1 pts)
+sd value is incorrect (-1 pts)
+statistically_different value is incorrect (-2 pts)
+t_calc value is incorrect (-2 pts)
+t_table value is incorrect (-1 pts)"
