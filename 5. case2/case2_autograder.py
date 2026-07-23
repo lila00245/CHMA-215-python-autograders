@@ -171,15 +171,15 @@ class StudentTests(unittest.TestCase):
 
     # checks that Fcalc was calculated correctly.
     def test_Fcalc(self):
-        self.assertIn("Fcalc", globals())
+        self.assertIn("f_calc", globals())
         self.assertIn("sd1", globals())
         self.assertIn("sd2", globals())
-        self.assertIsInstance(Fcalc, float)
+        self.assertIsInstance(f_calc, float)
         self.assertIsInstance(sd1, float)
         self.assertIsInstance(sd2, float)
 
         expected = (max(sd1, sd2) ** 2) / (min(sd1, sd2) ** 2)
-        self.assertAlmostEqual(Fcalc, expected, places=5)
+        self.assertAlmostEqual(f_calc, expected, places=5)
 
     # checks that f_table was calculated correctly.
     def test_f_table(self):

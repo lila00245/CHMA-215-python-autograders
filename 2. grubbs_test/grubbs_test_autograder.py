@@ -224,11 +224,15 @@ class StudentTests(unittest.TestCase):
         self.assertIn("x", globals())
         self.assertIn("x_bar", globals())
         self.assertIn("s", globals())
-        self.assertIn("G_calc", globals())
-        self.assertIsInstance(G_calc, float)
+        self.assertIn("g_calc", globals())
+        self.assertIsInstance(x, float)
+        self.assertIsInstance(x_bar, float)
+        self.assertIsInstance(s, float)
+        self.assertIsInstance(g_calc, float)
+
 
         expected = absolute(x, x_bar) / s
-        self.assertAlmostEqual(G_calc, expected, places=5)
+        self.assertAlmostEqual(g_calc, expected, places=5)
 
     # checks that the significance value was calculated correctly.
     def test_sig_val(self):
@@ -288,29 +292,33 @@ class StudentTests(unittest.TestCase):
         expected = math.sqrt(n * (n - 2 + t_table**2))
         self.assertAlmostEqual(denominator, expected, places=5)
 
-    # checks that G_table was calculated correctly.
+    # checks that g_table was calculated correctly.
     def test_g_table(self):
         self.assertIn("numerator", globals())
         self.assertIn("denominator", globals())
-        self.assertIn("G_table", globals())
+        self.assertIn("g_table", globals())
         self.assertIsInstance(numerator, float)
         self.assertIsInstance(denominator, float)
-        self.assertIsInstance(G_table, float)
+        self.assertIsInstance(g_table, float)
 
         expected = numerator / denominator
-        self.assertAlmostEqual(G_table, expected, places=5)
+        self.assertAlmostEqual(g_table, expected, places=5)
 
     # checks that the updated list was created correctly.
     def test_updated_list(self):
         self.assertIn("updated_list", globals())
         self.assertIn("data_list", globals())
-        self.assertIn("G_calc", globals())
-        self.assertIn("G_table", globals())
+        self.assertIn("g_calc", globals())
+        self.assertIn("g_table", globals())
         self.assertIn("potential_outlier", globals())
         self.assertIsInstance(updated_list, list)
+        self.assertIsInstance(data_list, list)
+        self.assertIsInstance(g_calc, float)
+        self.assertIsInstance(g_table, float)
+        self.assertIsInstance(potential_outlier, float)
 
         expected = data_list.copy()
-        if G_calc >= G_table:
+        if g_calc >= g_table:
             expected.remove(potential_outlier)
 
         self.assertEqual(updated_list, expected)
